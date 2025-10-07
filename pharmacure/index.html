@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCure - Online Pharmacy</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+        }
+        header {
+            background: #28a745;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        #cart-count {
+            background: #fff;
+            color: #28a745;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 20px 0;
+        }
+        #searchBox {
+            width: 100%;
+            max-width: 600px;
+            padding: 12px 20px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .product-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-card img {
+            max-width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .product-card h3 {
+            color: #007bff;
+            margin: 10px 0 5px;
+        }
+        .product-card p {
+            font-weight: bold;
+            color: #333;
+        }
+        .add-to-cart {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            margin: 6px 4px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .remove-from-cart {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            margin: 6px 4px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+        .remove-from-cart:hover {
+            background-color: #c82333;
+        }
+        footer {
+            background: #28a745;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+        @media (max-width: 600px) {
+            .product-card {
+                padding: 15px;
+            }
+            .product-card h3 {
+                font-size: 1.1em;
+            }
+            .product-card p {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+    <script src="search.js"></script>
+    <script src="cart.js"></script>
+    <script>
+        console.log('cart.js loaded:', typeof addToCart === 'function' ? 'addToCart defined' : 'addToCart not defined');
+    </script>
+</head>
+<body>
+    <header>
+        <h1>PharmaCure</h1>
+        <nav>
+            <ul>
+                <li><a href="/pharmacure/intro.html">Home</a></li>
+                <li><a href="/pharmacure/cart.html">Cart <span id="cart-count">0</span></a></li>
+                <li><a href="/pharmacure/checkout.html">Checkout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="search-wrapper">
+        <input type="text" id="searchBox" placeholder="Search for medicines..." onkeyup="searchProducts()">
+    </div>
+    <section class="products">
+        <div class="product-card" id="product-paracetamol">
+            <img src="images/paracetamol.jpg" alt="Paracetamol">
+            <h3>Paracetamol</h3>
+            <p>₹50.00</p>
+            <p class="description">Pain reliever and fever reducer, 500mg tablets.</p>
+            <button class="add-to-cart" onclick="addToCart('Paracetamol', 50)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Paracetamol')">Remove from Cart</button>
+        </div>
+        <div class="product-card" id="product-aspirin">
+            <img src="/pharmacure/image/aspirin.jpg" alt="Aspirin">
+            <h3>Aspirin</h3>
+            <p>₹80.00</p>
+            <p class="description">Anti-inflammatory and pain relief, 325mg tablets.</p>
+            <button class="add-to-cart" onclick="addToCart('Aspirin', 80)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Aspirin')">Remove from Cart</button>
+        </div>
+        <div class="product-card" id="product-cough-syrup">
+            <img src="/image/cough_syrup.jpg" alt="Cough Syrup">
+            <h3>Cough Syrup</h3>
+            <p>₹150.00</p>
+            <p class="description">Relieves dry and productive cough, 100ml bottle.</p>
+            <button class="add-to-cart" onclick="addToCart('Cough Syrup', 150)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Cough Syrup')">Remove from Cart</button>
+        </div>
+        <div class="product-card" id="product-cetirizine">
+            <img src="/images/cetirizine.jpg" alt="Cetirizine">
+            <h3>Cetirizine</h3>
+            <p>₹60.00</p>
+            <p class="description">Antihistamine for allergy relief, 10mg tablets.</p>
+            <button class="add-to-cart" onclick="addToCart('Cetirizine', 60)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Cetirizine')">Remove from Cart</button>
+        </div>
+        <div class="product-card" id="product-ayurvedic-cough-syrup">
+            <img src="/images/ayurvedic_cough_syrup.jpg" alt="Ayurvedic Cough Syrup">
+            <h3>Ayurvedic Cough Syrup</h3>
+            <p>₹150.00</p>
+            <p class="description">Natural remedy for cough, 100ml bottle.</p>
+            <button class="add-to-cart" onclick="addToCart('Ayurvedic Cough Syrup', 150)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Ayurvedic Cough Syrup')">Remove from Cart</button>
+        </div>
+        <div class="product-card" id="product-calpol">
+            <img src="images/calpol.jpg" alt="Calpol">
+            <h3>Calpol</h3>
+            <p>₹100.00</p>
+            <p class="description">Pediatric fever and pain relief, 120mg/5ml syrup.</p>
+            <button class="add-to-cart" onclick="addToCart('Calpol', 100)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Calpol')">Remove from Cart</button>
+        </div>
+        <div class="product-card" id="product-calpol">
+            <img src="/image/Cetirizine.jpeg" alt="Calpol">
+            <h3>saradon</h3>
+            <p>₹05.00</p>
+            <p class="description">Pediatric fever and pain relief, 120mg/5ml syrup.</p>
+            <button class="add-to-cart" onclick="addToCart('Calpol', 100)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Calpol')">Remove from Cart</button>
+        </div>
+        <div class="product-card" id="product-paracip-500">
+            <img src="/image/para.jpg" alt="Paracip-500">
+            <h3>Paracip-500</h3>
+            <p>₹50.00</p>
+            <p class="description">Paracetamol for pain and fever, 500mg tablets.</p>
+            <button class="add-to-cart" onclick="addToCart('Paracip-500', 50)">Add to Cart</button>
+            <button class="remove-from-cart" onclick="removeFromCart('Paracip-500')">Remove from Cart</button>
+        </div>
+    </section>
+    <footer>
+        <p>© 2025 PharmaCure | All rights reserved.</p>
+    </footer>
+</body>
+</html>

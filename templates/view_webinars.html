@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+    <title>Webinars</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-yellow-50 min-h-screen">
+    <div class="max-w-2xl mx-auto mt-10 bg-white rounded-xl shadow-md p-8">
+        <h1 class="text-3xl font-bold text-yellow-700 mb-6">Webinars & Videos 🎥</h1>
+        <a href="/upload_webinar" class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 font-semibold mb-6 inline-block">Upload Webinar</a>
+        <div>
+        {% for w in webinars %}
+          <div class="border border-gray-300 rounded-lg p-5 mb-6 bg-yellow-100 shadow">
+            <h3 class="text-xl font-semibold text-yellow-800 mb-2">{{w[1]}}</h3>
+            <p class="mb-2 text-gray-700">{{w[2]}}</p>
+            <p class="mb-2 text-sm text-gray-600">By: <span class="font-medium">{{w[4]}}</span> on <span class="font-medium">{{w[5]}}</span></p>
+            <a href="{{w[3]}}" target="_blank" class="bg-yellow-700 text-white px-3 py-1 rounded hover:bg-yellow-900 font-semibold">Watch Video</a>
+          </div>
+        {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>Upload Webinar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-yellow-50 min-h-screen">
+    <div class="max-w-lg mx-auto mt-10 bg-white rounded-xl shadow-md p-8">
+        <h1 class="text-2xl font-bold text-yellow-700 mb-6 text-center">Upload Webinar 🎥</h1>
+        <form method="post" class="flex flex-col gap-4">
+            <div>
+                <label class="font-medium mb-1 block">Title:</label>
+                <input name="title" class="border rounded px-3 py-2 w-full" />
+            </div>
+            <div>
+                <label class="font-medium mb-1 block">Description:</label>
+                <textarea name="description" class="border rounded px-3 py-2 w-full min-h-[60px]"></textarea>
+            </div>
+            <div>
+                <label class="font-medium mb-1 block">Video URL:</label>
+                <input name="video_url" class="border rounded px-3 py-2 w-full" />
+            </div>
+            <div>
+                <label class="font-medium mb-1 block">Uploaded By:</label>
+                <input name="uploaded_by" class="border rounded px-3 py-2 w-full" />
+            </div>
+            <button type="submit" class="bg-yellow-700 text-white px-4 py-2 rounded hover:bg-yellow-900 font-semibold mt-2">Upload</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login - Svasta</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0;padding:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#f8fafc}</style>
+</head>
+<body>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
+    <h1 class="text-2xl font-bold mb-4">Sign in to Svasta</h1>
+    <form id="login-form">
+      <label class="block text-sm text-gray-600">Email</label>
+      <input id="email" type="email" class="w-full border rounded px-3 py-2 mb-3" required>
+      <label class="block text-sm text-gray-600">Password</label>
+      <input id="password" type="password" class="w-full border rounded px-3 py-2 mb-4" required>
+      <div class="flex justify-end">
+        <button id="signin" type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Sign In</button>
+      </div>
+    </form>
+    <p class="text-xs text-gray-500 mt-3">Note: This demo login stores a session locally (no backend auth).</p>
+  </div>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('email').value || 'User';
+      // For demo: accept any password
+      localStorage.setItem('isLoggedIn','true');
+      localStorage.setItem('userName', email.split('@')[0]);
+      const next = localStorage.getItem('nextAfterLogin');
+      if (next) {
+        try { localStorage.removeItem('nextAfterLogin'); } catch (e) {}
+        window.location.href = next;
+      } else {
+        window.location.href = '/user';
+      }
+    });
+  </script>
+  <script>
+document.getElementById("login-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+
+    // Save login info
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userName", username);
+
+    // Go to dashboard
+    window.location.href = "/user_dashboard.html";
+});
+</script>
+
+</body>
+</html>

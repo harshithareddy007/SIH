@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Svasta Healthcare: Accessible, Reliable, and Inclusive</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the Inter font and overall background */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+        /* Custom classes to replicate the colored text from the image */
+        .text-accessible { color: #007bff; /* Vibrant Blue */ }
+        .text-reliable { color: #10b981; /* Emerald Green */ }
+        .text-inclusive { color: #7E22CE; /* Dark Gray for contrast */ }
+
+        /* Style for the gradient border box around the image */
+        .gradient-border-box {
+            position: relative;
+            padding: 4px; /* Space for the border */
+            border-radius: 1.5rem;
+        }
+        .gradient-border-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, #007bff, #10b981, #d1e5f4); /* Blue, Green, Light Blue */
+            border-radius: 1.5rem;
+            z-index: 0;
+            opacity: 0.7;
+            filter: blur(8px);
+        }
+        .gradient-content {
+            position: relative;
+            background: white;
+            border-radius: 1.3rem;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Button Animations */
+        .cta-animated {
+            transition: transform 0.15s cubic-bezier(.4,0,.2,1), box-shadow 0.15s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .cta-animated:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+        }
+        .cta-animated:active {
+            transform: scale(0.97) translateY(1px);
+        }
+        /* NavBar Animation */
+        .nav-animated {
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .nav-animated:hover, .nav-animated:focus {
+            background: #e0f2fe;
+            color: #007bff !important;
+            box-shadow: 0 2px 8px rgba(0,175,239,0.08);
+        }
+        /* Heart and Shield icon pulse */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1);}
+            50% { transform: scale(1.15);}
+        }
+        .pulse-anim {
+            animation: pulse 1.5s infinite;
+        }
+        /* Modal pop animation */
+@keyframes modalPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+#tips-modal .modal-content {
+    animation: modalPop 0.4s ease-out;
+}
+
+/* Floating tip cards */
+.tip-card {
+  transition: all 0.5s ease-out;
+}
+/* Rounded chat bubbles & shadows */
+.bot-message {
+  border-radius: 1.5rem 1.5rem 1.5rem 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.user-message {
+  border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+  background-color: #dbeafe;
+  text-align: right;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Typing indicator */
+.typing-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 2px;
+  background-color: #34d399;
+  border-radius: 50%;
+  animation: bounce 1s infinite;
+}
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) {
+        // Not logged in → go to login page
+        window.location.href = "/login.html";
+    }
+
+    // Optional: greet user
+    const userName = localStorage.getItem("userName") || "User";
+    const greeting = document.getElementById("user-greeting");
+    if (greeting) greeting.textContent = `Hello, ${userName}! 👋`;
+});
+</script>
+
+    <script>
+
+  // No auth required for dev: dashboard opens directly
+
+  // Optional: greet user
+  const userName = localStorage.getItem('userName') || 'User';
+  const greeting = document.getElementById('user-greeting');
+  if(greeting) greeting.textContent = `Hello, ${userName}! 👋`;
+
+
+        // Navigation/CTA handlers
+  function gotoDashboard() { window.location = '/user'; }
+        function gotoPharmaStore() { window.location = '/pharmacure/intro.html'; }
+        function gotoConsultation() { window.location = '/consultation'; }
+        function gotoEmergency() { window.location = '/sos/1'; }
+        function gotoEducation() { window.location = '/classes'; }
+        function gotoWebinars() { window.location = '/webinars'; }
+        // Add more handlers as needed
+        document.addEventListener('DOMContentLoaded', function() {
+    // Navigation bar links
+    document.getElementById('nav-dashboard')?.addEventListener('click', gotoDashboard);
+    document.getElementById('nav-medicine')?.addEventListener('click', gotoPharmaStore);
+    document.getElementById('nav-consultation')?.addEventListener('click', gotoConsultation);
+    document.getElementById('nav-emergency')?.addEventListener('click', gotoEmergency);
+    document.getElementById('nav-education')?.addEventListener('click', gotoEducation);
+    document.getElementById('nav-logout')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html';
+    });
+
+    // CTA buttons
+    document.getElementById('cta-order-medicine')?.addEventListener('click', gotoPharmaStore);
+    document.getElementById('cta-consult-doctor')?.addEventListener('click', gotoConsultation);
+    document.getElementById('cta-emergency-help')?.addEventListener('click', gotoEmergency);
+    document.getElementById('cta-book-appointment')?.addEventListener('click', function() {
+        window.location = '/appointments';
+    });
+    document.getElementById('cta-upload-prescription')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        openPrescriptionModal();
+    });
+
+    // Animate nav links on click
+    document.querySelectorAll('.nav-animated').forEach(el => {
+        el.addEventListener('mousedown', () => el.classList.add('ring', 'ring-blue-200'));
+        el.addEventListener('mouseup', () => el.classList.remove('ring', 'ring-blue-200'));
+        el.addEventListener('mouseleave', () => el.classList.remove('ring', 'ring-blue-200'));
+    });
+
+    // Prescription form submission (mock)
+    document.getElementById('prescription-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('prescription-success').classList.remove('hidden');
+        setTimeout(closePrescriptionModal, 1500);
+    });
+});
+  document.getElementById('nav-logout')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('userName');
+  window.location.href = '/login';
+});
+
+    </script>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-20 bg-white border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-extrabold text-green-600">Svasta</span>
+                    <span class="text-2xl font-semibold text-gray-800 ml-1">Healthcare</span>
+                </div>
+                
+                <!-- Desktop Nav Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-4 items-center text-sm font-medium">
+    <a href="#" id="nav-dashboard" class="nav-animated text-blue-600 hover:text-blue-700 px-3 py-2 rounded-md transition duration-150 flex items-center space-x-1 bg-blue-50/50">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6"></path></svg>
+        <span>Home</span>
+    </a>
+    <a href="#" id="nav-medicine" class="nav-animated text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md transition duration-150 flex items-center space-x-1">
+        <span role="img" aria-label="Medicine icon">💊</span>
+        <span>Medicine</span>
+    </a>
+    <a href="#" id="nav-consultation" class="nav-animated text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md transition duration-150 flex items-center space-x-1">
+        <span role="img" aria-label="Consultation icon">💬</span>
+        <span>Consultation</span>
+    </a>
+    <a href="#" id="nav-emergency" class="nav-animated text-red-500 hover:text-red-600 px-3 py-2 rounded-md transition duration-150 flex items-center space-x-1 font-semibold">
+        <span role="img" aria-label="Emergency icon">⚠️</span>
+        <span>Emergency</span>
+    </a>
+    <a href="#" id="nav-education" class="nav-animated text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md transition duration-150">Education</a>
+    <a href="#" id="nav-logout" class="nav-animated text-gray-500 hover:text-red-600 px-3 py-2 rounded-md transition duration-150 flex items-center space-x-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h3a3 3 0 013 3v1"></path></svg>
+        <span>Logout</span>
+    </a>
+</div>
+                <!-- Mobile Menu Button (Hidden for brevity, typically included for full responsiveness) -->
+                <!-- <div class="sm:hidden flex items-center">...</div> -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content/Hero Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <!-- Left: Text and CTAs -->
+            <div class="space-y-6 lg:pr-10">
+                <p class="text-sm font-semibold text-blue-600 tracking-wider uppercase">Trusted Healthcare Platform</p>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                    One Platform for 
+                    <span class="text-accessible">Accessible</span>, 
+                    <span class="text-reliable">Reliable</span>, 
+                    and <span class="text-inclusive">Inclusive</span> 
+                    Healthcare
+                </h1>
+                
+                <p class="text-lg text-gray-600 max-w-xl">
+                    Svasta brings quality healthcare to everyone. From medicine delivery to doctor consultations, we're here to support your health journey with care and compassion.
+                </p>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
+                    <!-- Order Medicine Button (Primary Blue) -->
+                    <button id="cta-order-medicine" class="cta-animated flex items-center justify-center space-x-2 px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-blue-500 hover:bg-blue-600 transition duration-150 shadow-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        <span>Order Medicine</span>
+                    </button>
+
+                    <!-- Consult Doctor Button (Accent Green) -->
+                    <button id="cta-consult-doctor" class="cta-animated flex items-center justify-center space-x-2 px-6 py-3 border border-green-500 text-base font-medium rounded-xl text-green-700 bg-white hover:bg-green-50 transition duration-150 shadow-md">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.143M9 16l3 3m-3-3l-3 3"></path></svg>
+                        <span>Consult Doctor</span>
+                    </button>
+
+                    <!-- Upload Prescription Button (replaces Emergency Help) -->
+                    <button id="cta-upload-prescription" type="button" class="cta-animated flex items-center justify-center space-x-2 px-6 py-3 border border-orange-400 text-base font-medium rounded-xl text-orange-700 bg-white hover:bg-orange-50 transition duration-150 shadow-md">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        <span>Upload Prescription</span>
+                    </button>
+
+                    <!-- Book Appointment Button -->
+                    <button id="cta-book-appointment" class="cta-animated flex items-center justify-center space-x-2 px-6 py-3 border border-purple-400 text-base font-medium rounded-xl text-purple-700 bg-white hover:bg-purple-50 transition duration-150 shadow-md">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span>Book Appointment</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Image Section with Gradient Border -->
+            <div class="relative flex justify-center items-center h-full" style="align-items: flex-start;">
+                <div class="gradient-border-box w-full max-w-md lg:max-w-none shadow-2xl mt-[-40px]">
+                    <div class="gradient-content aspect-[4/3] w-full relative">
+                        <!-- Local image from res folder -->
+                        <img 
+                            src="/static/Gemini_Generated_Image_t27rzmt27rzmt27r.png"
+                            alt="Healthcare professionals assisting a patient"
+                            class="w-full h-full object-cover rounded-xl"
+                            style="min-height: 300px; background: #e5f6ff;"
+                        />
+                        <!-- Top Right Heart Icon -->
+<div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-lg cursor-pointer hover:bg-red-50 transition duration-150 pulse-anim heart-icon">
+    <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+    </svg>
+</div>
+
+<!-- Bottom Left Shield Icon -->
+<div class="absolute bottom-4 left-4 bg-white p-2 rounded-full shadow-lg cursor-pointer hover:bg-green-50 transition duration-150 pulse-anim shield-icon">
+    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.108a12.025 12.025 0 014.223 3.693l-4.223 3.693m0 0l-4.223 3.693M4 12V6a2 2 0 012-2h12a2 2 0 012 2v6m-4 6h-4m-4 0v-4a2 2 0 012-2h4a2 2 0 012 2v4m-4 4h.01"></path>
+    </svg>
+</div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Popup Modal for Upload Prescription -->
+    <div id="prescription-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+        <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md relative">
+            <button onclick="closePrescriptionModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+            <h2 class="text-xl font-bold mb-4 text-orange-700">Upload Prescription</h2>
+            <form id="prescription-form" enctype="multipart/form-data">
+                <input type="file" id="prescription-file" name="prescription" accept="image/*,.pdf" class="mb-4 block w-full border border-gray-300 rounded px-3 py-2" required>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 font-semibold shadow cta-animated">Send</button>
+                </div>
+            </form>
+            <div id="prescription-success" class="text-green-600 mt-3 hidden">Prescription uploaded successfully!</div>
+        </div>
+    </div>
+
+    <script>
+        // Add handler for new Book Appointment button
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('cta-book-appointment')?.addEventListener('click', function() {
+                window.location = '/appointments';
+            });
+        });
+        // Add handler for Upload Prescription button
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('cta-upload-prescription')?.addEventListener('click', function() {
+                window.location = '/upload_prescription';
+            });
+        });
+        function openPrescriptionModal() {
+            document.getElementById('prescription-modal').classList.remove('hidden');
+        }
+        function closePrescriptionModal() {
+            document.getElementById('prescription-modal').classList.add('hidden');
+            document.getElementById('prescription-form').reset();
+            document.getElementById('prescription-success').classList.add('hidden');
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation bar links
+            document.getElementById('nav-dashboard')?.addEventListener('click', gotoDashboard);
+            document.getElementById('nav-medicine')?.addEventListener('click', gotoPharmaStore);
+            document.getElementById('nav-consultation')?.addEventListener('click', gotoConsultation);
+            document.getElementById('nav-emergency')?.addEventListener('click', gotoEmergency);
+            document.getElementById('nav-education')?.addEventListener('click', gotoEducation);
+
+            // CTA buttons
+            document.getElementById('cta-order-medicine')?.addEventListener('click', gotoPharmaStore);
+            document.getElementById('cta-consult-doctor')?.addEventListener('click', gotoConsultation);
+            document.getElementById('cta-emergency-help')?.addEventListener('click', gotoEmergency);
+
+            // Animate nav links on click
+            document.querySelectorAll('.nav-animated').forEach(el => {
+                el.addEventListener('mousedown', () => el.classList.add('ring', 'ring-blue-200'));
+                el.addEventListener('mouseup', () => el.classList.remove('ring', 'ring-blue-200'));
+                el.addEventListener('mouseleave', () => el.classList.remove('ring', 'ring-blue-200'));
+            });
+
+            // Upload Prescription button to open modal
+            document.getElementById('cta-upload-prescription')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                openPrescriptionModal();
+            });
+
+            // Prescription form submission (mock)
+            document.getElementById('prescription-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('prescription-success').classList.remove('hidden');
+                setTimeout(closePrescriptionModal, 1500);
+            });
+        });
+    </script>
+    <!-- Partners Section -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-extrabold text-gray-800 mb-10">🤝 Our Trusted Partners</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center justify-center">
+      
+      <!-- Partner 1 -->
+      <div class="flex flex-col items-center bg-white shadow-md rounded-xl p-4 hover:scale-105 transition">
+        <img src="/static/partners/apollo.png" alt="Apollo 24/7" class="h-12 mb-3">
+        <p class="text-sm font-semibold text-gray-700">Apollo 24/7</p>
+      </div>
+      
+      <!-- Partner 2 -->
+      <div class="flex flex-col items-center bg-white shadow-md rounded-xl p-4 hover:scale-105 transition">
+        <img src="/static/partners/zepto.png" alt="Zepto" class="h-12 mb-3">
+        <p class="text-sm font-semibold text-gray-700">Zepto</p>
+      </div>
+      
+      <!-- Partner 3 -->
+      <div class="flex flex-col items-center bg-white shadow-md rounded-xl p-4 hover:scale-105 transition">
+        <img src="/static/partners/rapido.png" alt="Rapido" class="h-12 mb-3">
+        <p class="text-sm font-semibold text-gray-700">Rapido</p>
+      </div>
+      
+      <!-- Partner 4 -->
+      <div class="flex flex-col items-center bg-white shadow-md rounded-xl p-4 hover:scale-105 transition">
+        <img src="/static/partners/postal.png" alt="Postal" class="h-12 mb-3">
+        <p class="text-sm font-semibold text-gray-700">Govt. Postal</p>
+      </div>
+      
+      <!-- Partner 5 -->
+      <div class="flex flex-col items-center bg-white shadow-md rounded-xl p-4 hover:scale-105 transition">
+        <img src="/static/partners/medplus.png" alt="MedPlus" class="h-12 mb-3">
+        <p class="text-sm font-semibold text-gray-700">MedPlus</p>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Impact Numbers Section with Animation -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <h2 class="text-2xl font-bold text-gray-800 mb-12">Impact & Benefits</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Card 1 -->
+      <div class="p-6 bg-blue-50 rounded-xl shadow-md">
+        <div class="w-28 h-28 mx-auto flex items-center justify-center rounded-full bg-blue-100 shadow-inner">
+          <h3 class="text-4xl font-extrabold text-blue-600 count" data-target="70" data-suffix="%">0%</h3>
+        </div>
+        <p class="mt-4 text-gray-600">Reduction in medical delays</p>
+      </div>
+      
+      <!-- Card 2 -->
+      <div class="p-6 bg-green-50 rounded-xl shadow-md">
+        <div class="w-28 h-28 mx-auto flex items-center justify-center rounded-full bg-green-100 shadow-inner">
+          <h3 class="text-4xl font-extrabold text-green-600 count" data-target="30" data-suffix="%">0%</h3>
+        </div>
+        <p class="mt-4 text-gray-600">Fewer illness-related dropouts</p>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="p-6 bg-purple-50 rounded-xl shadow-md">
+        <div class="w-28 h-28 mx-auto flex items-center justify-center rounded-full bg-purple-100 shadow-inner">
+          <h3 class="text-4xl font-extrabold text-purple-600 count" data-target="24" data-suffix="/7" >0/7</h3>
+        </div>
+        <p class="mt-4 text-gray-600">Doctor consultations available</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA Footer Section -->
+<section class="py-16 bg-gradient-to-r from-blue-600 to-green-500 text-white text-center">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6">
+      Join the Svasta Healthcare Ecosystem
+    </h2>
+    <p class="text-lg mb-8">
+      Whether you’re a patient, doctor, or vendor – be part of a platform that makes healthcare
+      accessible, reliable, and inclusive for all.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/signup-user" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100 transition">
+        Join as User
+      </a>
+      <a href="/signup-doctor" class="px-6 py-3 bg-white text-green-600 font-semibold rounded-lg shadow hover:bg-gray-100 transition">
+        Join as Doctor
+      </a>
+      <a href="/signup-vendor" class="px-6 py-3 bg-white text-purple-600 font-semibold rounded-lg shadow hover:bg-gray-100 transition">
+        Join as Vendor
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".count");
+  let started = false;
+
+  function animateCounter(counter) {
+    const target = +counter.getAttribute("data-target");
+    const suffix = counter.getAttribute("data-suffix") || "";
+    let count = Math.floor(target * 0.6); // start from middle
+    const speed = 30; // lower = slower
+
+    const update = () => {
+      if (count < target) {
+        count += 1;
+        counter.textContent = count + suffix;
+        setTimeout(update, speed);
+      } else {
+        counter.textContent = target + suffix; // final value
+      }
+    };
+    update();
+  }
+
+  // Use IntersectionObserver to trigger when visible
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !started) {
+        counters.forEach(counter => animateCounter(counter));
+        started = true;
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(counter => observer.observe(counter));
+});
+
+
+</script>
+
+<!-- Svasta AI Chatbot Modal v2 -->
+<div id="chatbot-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-end justify-center sm:items-center">
+  <div class="chatbot-content bg-white w-full max-w-md rounded-t-3xl sm:rounded-xl shadow-2xl flex flex-col overflow-hidden animate-fadeIn">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-green-400 p-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow">
+          <span class="text-2xl">🤖</span>
+        </div>
+        <h2 class="text-white text-lg font-bold">Svasta AI Bot</h2>
+      </div>
+      <button onclick="closeChatbot()" class="text-white text-2xl font-bold hover:text-gray-200">&times;</button>
+    </div>
+
+    <!-- Messages -->
+    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 max-h-80">
+      <div class="bot-message bg-green-100 text-gray-800 p-3 rounded-xl shadow animate-fadeIn">
+        <strong>Bot:</strong> Hi 👋 How can I help you today?
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="flex items-center border-t border-gray-200 p-3 bg-white">
+      <input id="chatbot-input" type="text" placeholder="Type your message..." 
+             class="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      <button onclick="sendChatbotMessage()" 
+              class="ml-3 bg-gradient-to-r from-blue-500 to-green-400 text-white px-5 py-2 rounded-full hover:from-blue-600 hover:to-green-500 transition shadow">
+        Send
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Health Tips Modal -->
+<div id="tips-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white w-[500px] h-[300px] rounded-xl shadow-xl p-6 relative flex flex-col">
+    <button onclick="closeTips()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-xl font-bold">&times;</button>
+    <h2 class="text-xl font-bold text-red-600 mb-4">❤️ Health Tips & Tricks</h2>
+    
+    <!-- Tips list here -->
+    <ul id="tips-list" class="list-disc list-inside text-gray-700 space-y-2 overflow-y-auto flex-1">
+      <!-- tips will go here -->
+    </ul>
+    
+    <!-- Show More Button -->
+    <div class="mt-4 text-center">
+      <button onclick="showMoreTips()" 
+              class="px-5 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition">
+        🔄 Show More Tips
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+// Open/close chatbot
+function openChatbot() {
+  document.getElementById('chatbot-modal').classList.remove('hidden');
+}
+function closeChatbot() {
+  document.getElementById('chatbot-modal').classList.add('hidden');
+}
+
+// Send chatbot messages (simple mock)
+function openChatbot() {
+  const modal = document.getElementById('chatbot-modal');
+  modal.classList.remove('hidden');
+  const messages = document.getElementById('chatbot-messages');
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function closeChatbot() {
+  document.getElementById('chatbot-modal').classList.add('hidden');
+}
+
+// Send message with bot reply logic
+function sendChatbotMessage() {
+  const input = document.getElementById('chatbot-input');
+  const messages = document.getElementById('chatbot-messages');
+  const userText = input.value.trim();
+  if (!userText) return;
+
+  // Add user message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'user-message p-2 bg-blue-100 rounded-lg text-right animate-fadeIn';
+  userMsg.innerHTML = `<strong>You:</strong> ${userText}`;
+  messages.appendChild(userMsg);
+
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+
+  // Bot reply logic
+  setTimeout(() => {
+    const botMsg = document.createElement('div');
+    botMsg.className = 'bot-message p-2 bg-green-100 rounded-lg animate-fadeIn';
+
+    // Super simple interactive replies
+    if (/hello|hi|hey/i.test(userText)) {
+      botMsg.innerHTML = `<strong>Bot:</strong> Hey there! 😄 How’s your day going?`;
+    } else if (/help|medicine|doctor|appointment/i.test(userText)) {
+      botMsg.innerHTML = `<strong>Bot:</strong> Sure! I can help you with medicine orders, doctor consultations, and appointments. What do you want to do first? 🩺`;
+    } else if (/tips|health/i.test(userText)) {
+      botMsg.innerHTML = `<strong>Bot:</strong> Check out our ❤️ Health Tips section! They’re super easy to follow.`;
+    } else {
+      botMsg.innerHTML = `<strong>Bot:</strong> Hmm 🤔 I’m learning every day! Can you ask me something else?`;
+    }
+
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
+  }, 500); // bot reply delay
+}
+
+// Attach to shield icon click
+document.querySelector(".shield-icon")?.addEventListener("click", openChatbot);
+
+
+// Open/close tips modal
+function openTips() {
+  const modal = document.getElementById('tips-modal');
+  modal.classList.remove('hidden');
+
+  // Animate each card with a stagger
+  const cards = modal.querySelectorAll('.tip-card');
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.style.transform = "translateX(0)";
+      card.style.opacity = "1";
+    }, i * 200); // 200ms stagger
+  });
+}
+
+function closeTips() {
+  const modal = document.getElementById('tips-modal');
+
+  // Reset cards
+  const cards = modal.querySelectorAll('.tip-card');
+  cards.forEach(card => {
+    card.style.transform = "translateX(-100%)";
+    card.style.opacity = "0";
+  });
+
+  setTimeout(() => modal.classList.add('hidden'), 300); // hide modal after animation
+}
+
+// Attach heart icon click
+document.querySelector(".heart-icon")?.addEventListener("click", (e) => {
+    openTips();
+});
+
+// Attach to icons
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelector(".shield-icon")?.addEventListener("click", openChatbot);
+  document.querySelector(".heart-icon")?.addEventListener("click", openTips);
+});
+// Floating hearts + confetti
+function createConfetti(parent) {
+  for(let i=0; i<20; i++){
+    const confetti = document.createElement('div');
+    confetti.style.position = 'absolute';
+    confetti.style.width = '6px';
+    confetti.style.height = '6px';
+    confetti.style.background = `hsl(${Math.random()*360}, 70%, 60%)`;
+    confetti.style.borderRadius = '50%';
+    confetti.style.left = `${Math.random()*50-25}px`;
+    confetti.style.top = `0px`;
+    confetti.style.opacity = 1;
+    confetti.style.transform = 'translateY(0) rotate(0deg)';
+    confetti.style.transition = `transform 1s ease-out, opacity 1s ease-out`;
+    parent.appendChild(confetti);
+    setTimeout(() => {
+      confetti.style.transform = `translateY(${50 + Math.random()*50}px) rotate(${Math.random()*360}deg)`;
+      confetti.style.opacity = 0;
+    }, 10);
+    setTimeout(() => confetti.remove(), 1000);
+  }
+}
+
+document.querySelector(".heart-icon").addEventListener("click", (e) => {
+    // floating hearts
+    for (let i = 0; i < 5; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("floating-heart");
+        heart.style.left = `${Math.random() * 40 - 20}px`;
+        heart.style.top = "0px";
+        e.currentTarget.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+    }
+    createConfetti(e.currentTarget); // confetti burst
+    openTips(); // open modal
+});
+
+</script>
+
+<!-- Final Footer -->
+<footer class="bg-gray-900 text-gray-400 py-6 text-center">
+  <p>&copy; 2025 <span class="text-white font-semibold">Svasta Healthcare</span>. All rights reserved. 
+    | <a href="#" class="hover:text-blue-400">Privacy Policy</a>
+  </p>
+</footer>
+
+<script>
+const allTips = [
+  "🥗 Eat a balanced diet rich in fruits and vegetables.",
+  "🚶‍♀️ Stay active — even 30 min walks boost immunity.",
+  "💧 Drink at least 8 glasses of water daily.",
+  "🛌 Sleep 7–8 hours to recharge your body.",
+  "🧘 Manage stress with yoga or meditation.",
+  "🪥 Brush and floss teeth twice daily.",
+  "📵 Limit screen time before bed for better sleep.",
+  "☀️ Get 15 minutes of sunlight daily for Vitamin D.",
+  "🚭 Avoid smoking & excessive alcohol.",
+  "🧴 Wash hands often to prevent infections.",
+  "👟 Wear comfortable shoes for posture & health.",
+  "🥤 Cut down sugary drinks — go for water.",
+  "🍳 Eat protein-rich breakfast daily.",
+  "💉 Stay updated with vaccinations.",
+  "🩺 Go for regular health checkups.",
+  "👩‍⚕️ Don’t ignore persistent symptoms.",
+  "🥑 Healthy fats (avocado, nuts) are good for brain.",
+  "🎧 Listen to music to reduce stress.",
+  "🧴 Use sunscreen to protect your skin.",
+  "😴 Maintain consistent sleep schedule."
+];
+
+function renderTips() {
+  const tipsList = document.getElementById("tips-list");
+  tipsList.innerHTML = ""; // Clear old tips
+  
+  // Shuffle & pick 5 tips
+  const shuffled = allTips.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, 5);
+
+  // Add to modal
+  selected.forEach(tip => {
+    const li = document.createElement("li");
+    li.textContent = tip;
+    tipsList.appendChild(li);
+  });
+}
+
+function openTips() {
+  renderTips(); // Load first set
+  document.getElementById("tips-modal").classList.remove("hidden");
+}
+
+function closeTips() {
+  document.getElementById("tips-modal").classList.add("hidden");
+}
+
+function showMoreTips() {
+  renderTips(); // Refresh tips
+}
+function sendChatbotMessage() {
+  const input = document.getElementById('chatbot-input');
+  const messages = document.getElementById('chatbot-messages');
+  const userText = input.value.trim();
+  if (!userText) return;
+
+  // Add user message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'user-message p-3 animate-fadeIn';
+  userMsg.innerHTML = `<strong>You:</strong> ${userText}`;
+  messages.appendChild(userMsg);
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+
+  // Typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'bot-message p-3 flex gap-1';
+  typing.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>`;
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  setTimeout(() => {
+    typing.remove();
+    const botMsg = document.createElement('div');
+    botMsg.className = 'bot-message p-3 animate-fadeIn';
+    if (/hello|hi|hey/i.test(userText)) {
+      botMsg.innerHTML = `<strong>Bot:</strong> Hey! 😄 How’s your day?`;
+    } else if (/help|medicine|doctor|appointment/i.test(userText)) {
+      botMsg.innerHTML = `<strong>Bot:</strong> I can help with medicine orders, doctor consults & appointments. 🩺`;
+    } else if (/tips|health/i.test(userText)) {
+      botMsg.innerHTML = `<strong>Bot:</strong> Check out our ❤️ Health Tips section!`;
+    } else {
+      botMsg.innerHTML = `<strong>Bot:</strong> Hmm 🤔 I’m learning every day! Try asking something else.`;
+    }
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
+  }, 800);
+}
+
+</script>
+
+</body>
+</html>
+</html>

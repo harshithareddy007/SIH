@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+    <title>Upload Class</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #E8F8F5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 420px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+        }
+        h1 {
+            color: #117A65;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        input, textarea {
+            padding: 8px;
+            border: 1px solid #B2BABB;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        button {
+            background: #117A65;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 0;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #145A32;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Learning Class 🎓</h1>
+        <form method="post">
+            <label>Title:</label>
+            <input name="title">
+            <label>Description:</label>
+            <textarea name="description"></textarea>
+            <label>Meeting Link:</label>
+            <input name="meeting_link">
+            <label>Date:</label>
+            <input name="date" type="date">
+            <label>Time:</label>
+            <input name="time" type="time">
+            <label>Uploaded By:</label>
+            <input name="uploaded_by">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</body>
+</html>

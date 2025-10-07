@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+    <title>Svasta Health: Dashboards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8;
+        }
+        .card-link {
+            transition: all 0.3s ease-in-out;
+        }
+        .card-link:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-10 text-center">
+
+        <div class="mb-10">
+            <h1 class="text-4xl font-extrabold text-slate-800 mb-2 tracking-tight">
+                Welcome to <span class="text-green-600">Svasta</span>
+            </h1>
+            <p class="text-sm text-slate-500 uppercase font-semibold">Beta App Dashboards</p>
+        </div>
+
+        <ul class="space-y-6">
+            <li>
+                <a id="btn-user-dashboard" href="javascript:void(0)" class="card-link block py-5 px-6 rounded-2xl bg-blue-50 hover:bg-white text-left shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white">
+                            👤
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-slate-800">User Dashboard</p>
+                            <p class="text-sm text-slate-500">Manage your appointments, prescriptions, and health records.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="/vendor" class="card-link block py-5 px-6 rounded-2xl bg-orange-50 hover:bg-white text-left shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-orange-600 text-white">
+                            🏬
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-slate-800">Vendor Dashboard</p>
+                            <p class="text-sm text-slate-500">Manage your inventory, orders, and services.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="/admin" class="card-link block py-5 px-6 rounded-2xl bg-purple-50 hover:bg-white text-left shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-purple-600 text-white">
+                            🛠️
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-slate-800">Admin Dashboard</p>
+                            <p class="text-sm text-slate-500">Oversee the entire platform and manage accounts.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="/webinars" class="card-link block py-5 px-6 rounded-2xl bg-emerald-50 hover:bg-white text-left shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-emerald-600 text-white">
+                            🎥
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-slate-800">Webinars</p>
+                            <p class="text-sm text-slate-500">Access healthcare webinars and events.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="/classes" class="card-link block py-5 px-6 rounded-2xl bg-red-50 hover:bg-white text-left shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-red-600 text-white">
+                            📚
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-slate-800">Learning Classes</p>
+                            <p class="text-sm text-slate-500">Enroll in healthcare courses and learning sessions.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="/login" class="card-link block py-5 px-6 rounded-2xl bg-yellow-50 hover:bg-white text-left shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-yellow-500 text-white">
+                            🔑
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-slate-800">Login</p>
+                            <p class="text-sm text-slate-500">Login to access your dashboard.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+<script>
+    // When the User Dashboard card is clicked: if user is logged in go to /user,
+    // otherwise remember the target and go to /login so they return after sign-in.
+    document.getElementById("btn-user-dashboard")?.addEventListener("click", function() {
+        try {
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            if (isLoggedIn === 'true') {
+                window.location.href = '/user';
+            } else {
+                localStorage.setItem('nextAfterLogin', '/user');
+                window.location.href = '/login';
+            }
+        } catch (e) {
+            // fallback
+            window.location.href = '/login';
+        }
+    });
+</script>
+ </body>
+</html>

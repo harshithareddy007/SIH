@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Svasta Vendor Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Svasta Colors & Fonts */
+        :root {
+            --color-cyan: #00AFEF; /* Cyan */
+            --color-mint: #34D367; /* Mint */
+            --color-red: #EF4444;  /* Red */
+            --color-dark: #1F2937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light gray background */
+            padding-top: 4rem; /* Space for the fixed header */
+        }
+
+        /* Utility for Hover/Click Effects (Ensures consistent animation across all CTAs) */
+        .cta-button {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: scale(1.03); /* Subtle scale up on hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button:active {
+            transform: scale(0.97); /* 'Pop-in' effect on click */
+        }
+
+        /* Custom Keyframes for the Subtle Pulse/Glow on the Main Card */
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(52, 211, 103, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 15px 4px rgba(52, 211, 103, 0.6);
+            }
+        }
+        /* Applied to a specific card-like element if needed, but the main layout is now fluid */
+        .order-status-card {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .order-status-card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+
+        .nav-link {
+            transition: color 0.2s, background-color 0.2s;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(0, 175, 239, 0.1); /* light cyan background */
+        }
+    </style>
+    <script>
+        // Configure Tailwind to use the custom Svasta colors
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'svasta-cyan': 'var(--color-cyan)',
+                        'svasta-mint': 'var(--color-mint)',
+                        'svasta-red': 'var(--color-red)',
+                        'svasta-dark': 'var(--color-dark)',
+                    }
+                }
+            }
+        }
+
+        // --- Data Fetching Logic (Mocked) ---
+        // Simulates fetching orders from an API
+        
+        // Moved the fetchOrders call and the form listener setup inside DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchOrders();
+            setupFormListener(); // Setup the form listener here
+        });
+
+        const fetchOrders = () => {
+             // Mock data structure: [Order ID, Medicine Name, Quantity, Status]
+            const mockData = [
+                [10023, 'Aspirin', 1, 'Pending'],
+                [10024, 'Paracetamol', 10, 'Preparing'],
+                [10025, 'Supplements', 5, 'Out for Delivery'],
+                [10026, 'Bandages', 2, 'Pending'],
+                [10027, 'Cough Syrup', 1, 'Preparing'],
+            ];
+
+            let out = '';
+            let sel = '';
+
+            mockData.forEach(o => {
+                let statusColor = 'text-gray-500';
+                if (o[3] === 'Pending') statusColor = 'text-svasta-red';
+                if (o[3] === 'Preparing') statusColor = 'text-svasta-mint';
+                if (o[3] === 'Out for Delivery') statusColor = 'text-svasta-cyan';
+
+                out += `<li class="p-4 border-b border-gray-100 flex justify-between items-center transition duration-150 ease-in-out hover:bg-gray-50">
+                            <span class="font-medium text-svasta-dark">Order #${o[0]}: ${o[1]} x${o[2]}</span>
+                            <span class="text-sm font-semibold ${statusColor} bg-white px-2 py-1 rounded-full shadow-sm">${o[3]}</span>
+                        </li>`;
+                sel += `<option value="${o[0]}">${o[0]} - ${o[1]}</option>`;
+            });
+
+            const ordersList = document.getElementById('orders');
+            if (ordersList) ordersList.innerHTML = out;
+            
+            const orderSelect = document.getElementById('order_select');
+            if (orderSelect) orderSelect.innerHTML = sel;
+        };
+        
+        // Function to set up the form listener
+        const setupFormListener = () => {
+             // Simple mock for status update
+            const statusForm = document.getElementById('statusForm');
+            if (statusForm) {
+                statusForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const orderId = document.getElementById('order_select').value;
+                    const status = document.getElementById('status_select').value;
+                    console.log(`Updating Order ${orderId} status to: ${status}`);
+                    // NOTE: Using a custom modal is preferred over alert() in real apps.
+                    alert(`Order ${orderId} status updated to ${status}. (Mock update)`);
+                    fetchOrders(); // Refresh mock list
+                });
+            }
+        };
+
+        // SOS button handler
+        function triggerSOS(){ 
+            console.log("SOS TRIGGERED! Alerting emergency contacts/authorities."); 
+            // NOTE: Using a custom modal is preferred over alert() in real apps.
+            alert("SOS signal sent! Help is on the way.");
+            // window.location='/sos/1'; // Placeholder for real redirect
+        }
+
+        // Monitoring button handler
+        function triggerMonitor(){
+             console.log("Redirecting to Stock and Inventory Management...");
+             // window.location='/stock-monitor'; // Placeholder for real redirect
+        }
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <!-- Header / Navigation Bar (Fixed for a Web Application Feel) -->
+    <header class="fixed top-0 left-0 right-0 z-50 shadow-md bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <span class="text-svasta-mint text-3xl font-extrabold">S</span>
+                <span class="text-svasta-dark font-semibold text-xl">Svasta Vendor</span>
+            </div>
+
+            <!-- Navigation Links (Desktop) -->
+            <nav class="hidden md:flex items-center space-x-4">
+                <a href="#" class="nav-link text-gray-600 hover:text-svasta-cyan flex items-center font-medium">
+                    <span class="text-lg mr-1">🏠</span> Dashboard
+                </a>
+                <a href="#" class="nav-link text-gray-600 hover:text-svasta-cyan flex items-center font-medium">
+                    <span class="text-lg mr-1">📈</span> Stock
+                </a>
+                <a href="#" class="nav-link text-gray-600 hover:text-svasta-cyan flex items-center font-medium">
+                    <span class="text-lg mr-1">🎓</span> Training
+                </a>
+                <a href="#" class="nav-link text-svasta-red hover:text-svasta-red/80 flex items-center font-semibold border border-svasta-red/50">
+                    <span class="text-lg mr-1">🚨</span> SOS
+                </a>
+                <a href="#" class="nav-link text-gray-600 hover:text-svasta-cyan flex items-center font-medium">
+                    <span class="text-lg mr-1">🔒</span> Logout
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area - Fluid width, structured sections -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header Section -->
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <h1 class="text-3xl font-extrabold text-svasta-dark flex items-center">
+                Vendor Dashboard 
+                <span class="ml-3 text-2xl" role="img" aria-label="store">🏪</span>
+            </h1>
+            <p class="text-md text-gray-500 hidden sm:block">Manage orders, inventory, and training.</p>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- COLUMN 1: Monitoring & Emergency (Primary CTAs) -->
+            <div class="lg:col-span-1 space-y-6">
+                
+                <!-- Monitoring Card -->
+                <div class="bg-white p-6 rounded-xl order-status-card">
+                    <h2 class="text-xl font-bold text-svasta-dark mb-4 flex items-center">
+                        <span class="text-svasta-cyan mr-2 text-2xl">📊</span> Business Overview
+                    </h2>
+                    <p class="text-gray-600 mb-4">View real-time stock levels, analytics, and sales reports.</p>
+                    <!-- Monitoring Button -->
+                    <button onclick="triggerMonitor()" class="cta-button bg-svasta-cyan text-white px-4 py-3 rounded-xl hover:bg-cyan-500 font-bold w-full shadow-lg flex items-center justify-center text-lg">
+                        <span class="mr-2 text-xl">📈</span> Stock & Order Monitoring
+                    </button>
+                </div>
+
+                <!-- Training Card -->
+                <div class="bg-white p-6 rounded-xl order-status-card">
+                    <h2 class="text-xl font-bold text-svasta-dark mb-4 flex items-center">
+                        <span class="text-svasta-mint mr-2 text-2xl">🎓</span> Training & Education
+                    </h2>
+                    <p class="text-gray-600 mb-4">Access video-based training for new procedures and emergency handling.</p>
+                    <div class="flex flex-col space-y-2">
+                        <a href="/webinars" class="text-svasta-cyan hover:text-svasta-mint font-semibold inline-flex items-center transition duration-200 border-b border-dashed pb-1">
+                            View Webinars
+                            <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                        <a href="/classes" class="text-svasta-cyan hover:text-svasta-mint font-semibold inline-flex items-center transition duration-200">
+                            View Classes
+                            <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SOS Button (Prominent Red) -->
+                <button onclick="triggerSOS()" class="cta-button bg-svasta-red text-white px-4 py-4 rounded-xl hover:bg-red-600 font-bold w-full shadow-xl text-xl">
+                    SOS 🚑
+                </button>
+            </div>
+
+
+            <!-- COLUMN 2 & 3 (SPANNING): Order Fulfillment & Status Update -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Order Update Form (Mint color scheme) -->
+                <div class="bg-svasta-mint/10 p-6 rounded-xl shadow-inner flex flex-col gap-4 border border-svasta-mint/30 order-status-card">
+                    <h3 class="text-2xl font-bold text-svasta-mint">Update Order Status</h3>
+                    
+                    <form id="statusForm" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="sm:col-span-1">
+                            <label class="font-medium text-svasta-dark mb-1 block">Select Order:</label>
+                            <select name="order_id" id="order_select" class="border border-gray-300 rounded-lg px-3 py-2 w-full focus:ring-svasta-cyan focus:border-svasta-cyan">
+                                <!-- Options populated by JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="sm:col-span-1">
+                            <label class="font-medium text-svasta-dark mb-1 block">New Status:</label>
+                            <select name="status" id="status_select" class="border border-gray-300 rounded-lg px-3 py-2 w-full focus:ring-svasta-cyan focus:border-svasta-cyan">
+                                <option>Preparing</option>
+                                <option>Out for Delivery</option>
+                                <option>Delivered</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Update button - Svasta Mint color and CTA animation -->
+                        <div class="sm:col-span-1 self-end">
+                            <button type="submit" class="cta-button bg-svasta-mint text-white px-4 py-2.5 rounded-xl hover:bg-green-600 font-bold shadow-md w-full">
+                                Update Status
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- Incoming Orders List -->
+                <div class="bg-white p-6 rounded-xl order-status-card">
+                    <h2 class="text-xl font-bold text-svasta-dark mb-4">Incoming Orders (user_id=1 demo)</h2>
+                    <ul id="orders" class="mb-2 list-none rounded-lg border border-gray-200 divide-y divide-gray-100 shadow-inner bg-white">
+                        <!-- Orders will be populated here by JavaScript -->
+                        <li class="p-3 text-center text-gray-400">Loading orders...</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div> <!-- End Main Dashboard Grid -->
+
+    </div> <!-- End Main Content Area -->
+</body>
+</html>

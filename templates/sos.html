@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <title>SOS</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #FFFEEF;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 80px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 32px 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #C0392B;
+            font-size: 2em;
+            margin-bottom: 24px;
+        }
+        p {
+            color: #333;
+            margin: 18px 0;
+        }
+        a {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 10px 22px;
+            background: #008080;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        a:hover {
+            background: #C0392B;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SOS Triggered 🚨</h1>
+        <p>Alert sent for user id: {{user_id}}</p>
+        <p>In production this will notify nearest vendors and admin.</p>
+        <a href="/">Back Home</a>
+    </div>
+</body>
+</html>
